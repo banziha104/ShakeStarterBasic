@@ -1,5 +1,6 @@
 package com.veryworks.iyeongjun.shakestarterbasic;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -29,7 +30,6 @@ public class ShakeDetectService extends Service implements DisplayReceiver.Shake
     @Override
     public void onCreate() {
         super.onCreate();
-        addDisplayReceiver();
         Log.d(TAG,"ServiceCreate");
     }
 
@@ -38,6 +38,7 @@ public class ShakeDetectService extends Service implements DisplayReceiver.Shake
         if(intent == null) addDisplayReceiver();
         isServiceRan = true;
         Log.d(TAG,"ServiceOnStartCommand");
+        startForeground(1, new Notification());
         return START_NOT_STICKY;
     }
 
@@ -54,6 +55,7 @@ public class ShakeDetectService extends Service implements DisplayReceiver.Shake
         displayReceiver = new DisplayReceiver();
         displayReceiver.setShakeServiceContext(this);
         registerReceiver(displayReceiver, filter);
+        addDisplayReceiver();
         startShakeListener();
         Log.d(TAG,"BroadCastReceiverStart");
     }
